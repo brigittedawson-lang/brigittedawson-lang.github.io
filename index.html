@@ -1,10 +1,585 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BD Software · Towers of H'Annoy, Landscape Recorder & Gjuhe Angleze</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 48px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+            text-align: center;
+        }
+
+        /* Header icons row - ALTERNATING MOVEMENT */
+        .icon-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tower-icon {
+            font-size: 5.5rem;
+            line-height: 1;
+            animation: towerAlternate 1.8s ease-in-out infinite;
+        }
+
+        .camera-icon-img {
+            width: 79px;
+            height: 79px;
+            object-fit: contain;
+            animation: cameraAlternate 1.8s ease-in-out infinite;
+        }
+
+        .language-icon {
+            font-size: 5.5rem;
+            line-height: 1;
+            animation: languageAlternate 1.8s ease-in-out infinite;
+        }
+
+        @keyframes towerAlternate {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }  /* Tower goes UP */
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes cameraAlternate {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(25px); }   /* Camera goes DOWN */
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes languageAlternate {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }   /* Language icon goes UP */
+            100% { transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #636e72;
+            margin-bottom: 40px;
+            font-style: italic;
+            border-bottom: 2px solid #d63031;
+            padding-bottom: 20px;
+        }
+
+        /* App sections - collapsible */
+        .app-section {
+            margin-bottom: 30px;
+            border: 2px solid #f0f0f0;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .app-section:hover {
+            border-color: #d63031;
+        }
+
+        /* App title button - collapsible trigger */
+        .app-title-btn {
+            width: 100%;
+            background: white;
+            border: none;
+            padding: 25px 30px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .app-title-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .app-title-btn h2 {
+            font-size: 2rem;
+            color: #d63031;
+            margin: 0;
+        }
+
+        .toggle-icon {
+            font-size: 2rem;
+            color: #d63031;
+            transition: transform 0.3s ease;
+        }
+
+        .app-section.active .toggle-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Collapsible content */
+        .app-content {
+            display: none;
+            padding: 0 30px 30px 30px;
+        }
+
+        .app-section.active .app-content {
+            display: block;
+        }
+
+        /* Screenshot rows */
+        .screenshots-row {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin: 30px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .screenshot-img {
+            width: 200px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 3px solid #d63031;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Features sections */
+        .features {
+            text-align: left;
+            margin: 30px 0 25px;
+            padding: 25px 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #d63031;
+        }
+
+        .features h3 {
+            color: #2d3436;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #d63031;
+            padding-bottom: 10px;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .features li {
+            margin: 15px 0;
+            color: #2d3436;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.5;
+            font-size: 1.05em;
+        }
+
+        .features li:before {
+            content: "🎯";
+            position: absolute;
+            left: 0;
+            color: #d63031;
+            font-size: 1.2em;
+        }
+
+        /* Camera features use different emoji */
+        .camera-features li:before {
+            content: "📷";
+        }
+
+        /* Language features custom emoji */
+        .language-features li:before {
+            content: "🗣️";
+        }
+
+        /* Black app store button */
+        .app-store-black {
+            display: inline-block;
+            background: #1a1a1a;
+            color: white;
+            padding: 16px 42px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 0.3px;
+            margin: 20px 0 20px;
+            border: 1px solid #333;
+            transition: all 0.25s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .app-store-black:hover {
+            background: #d63031;
+            border-color: #d63031;
+            transform: scale(1.05);
+        }
+
+        /* Contact section */
+        .contact {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+            color: #636e72;
+            font-size: 1.2rem;
+        }
+
+        .contact a {
+            color: #d63031;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted;
+        }
+
+        .contact a:hover {
+            border-bottom: 2px solid;
+        }
+
+        /* Privacy policy */
+        .privacy-policy {
+            margin: 40px 0 20px;
+        }
+
+        .privacy-toggle {
+            background: none;
+            border: 2px solid #d63031;
+            padding: 12px 36px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            color: #d63031;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .privacy-toggle:hover {
+            background: #d63031;
+            color: white;
+        }
+
+        .privacy-content {
+            display: none;
+            text-align: left;
+            max-width: 750px;
+            margin: 30px auto 0;
+            background: #f8f9fa;
+            padding: 32px 40px;
+            border-radius: 20px;
+            color: #2d3436;
+            border: 1px solid #d63031;
+        }
+
+        .privacy-content h3 {
+            color: #d63031;
+            font-size: 1.9rem;
+            margin-bottom: 15px;
+        }
+
+        .privacy-content h4 {
+            font-size: 1.3rem;
+            margin: 25px 0 10px;
+            color: #2d3436;
+            border-left: 4px solid #d63031;
+            padding-left: 16px;
+        }
+
+        .privacy-content ul {
+            margin: 10px 0 20px;
+            padding-left: 24px;
+        }
+
+        .privacy-content li {
+            margin: 8px 0;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        .labs {
+            font-weight: 500;
+            color: #b2bec3;
+            letter-spacing: 1px;
+            margin: 20px 0 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .screenshot-img {
+                width: 150px;
+                height: 300px;
+            }
+            .tower-icon {
+                font-size: 4rem;
+            }
+            .camera-icon-img {
+                width: 60px;
+                height: 60px;
+            }
+            .language-icon {
+                font-size: 4rem;
+            }
+            .app-title-btn h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Coming Soon</h1>
-    <p>Our new website is under construction.</p>
+    <div class="container">
+
+        <!-- HEADER with ALTERNATING icons (now three icons) -->
+        <div class="icon-row">
+            <span class="tower-icon">🗼</span>
+            <img src="landscape.png" alt="Landscape Recorder icon" class="camera-icon-img">
+            <span class="language-icon">🗣️</span>
+        </div>
+
+        <h1>BD Software</h1>
+        <div class="tagline">Making life fun and convenient</div>
+
+        <!-- ===== TOWERS OF H'ANNOY SECTION (collapsible) ===== -->
+        <div class="app-section" id="app1">
+            <button class="app-title-btn" onclick="toggleApp('app1')">
+                <h2>Towers of H'Annoy</h2>
+                <span class="toggle-icon">➕</span>
+            </button>
+            
+            <div class="app-content">
+                <!-- Three game screenshots -->
+                <div class="screenshots-row">
+                    <img src="game1.png" alt="Towers gameplay 1" class="screenshot-img">
+                    <img src="game2.png" alt="Towers gameplay 2" class="screenshot-img">
+                    <img src="game3.png" alt="Towers gameplay 3" class="screenshot-img">
+                </div>
+                
+                <!-- Game features -->
+                <div class="features">
+                    <h3>Features that will annoy you (in a good way):</h3>
+                    <ul>
+                        <li>Classic Towers of Hanoi puzzle with a mischievous twist</li>
+                        <li>Progressively annoying difficulty that keeps you coming back</li>
+                        <li>Built-in hints when the frustration gets real — but beware of the timer!</li>
+                        <li>Auto-demo mode to show you how it's done (cheater!)</li>
+                        <li>Completely free — no ads, no in-app purchases, just pure annoyance</li>
+                    </ul>
+                </div>
+                
+                <!-- Download button -->
+                <a href="#" class="app-store-black">⬇︎ Coming soon to the App Store</a>
+            </div>
+        </div>
+
+        <!-- ===== LANDSCAPE RECORDER SECTION (collapsible) ===== -->
+        <div class="app-section" id="app2">
+            <button class="app-title-btn" onclick="toggleApp('app2')">
+                <h2>Landscape Recorder</h2>
+                <span class="toggle-icon">➕</span>
+            </button>
+            
+            <div class="app-content">
+                <!-- Three camera screenshots -->
+                <div class="screenshots-row">
+                    <img src="camera1.png" alt="Camera viewfinder portrait 1" class="screenshot-img">
+                    <img src="camera2.png" alt="Camera viewfinder portrait 2" class="screenshot-img">
+                    <img src="camera3.png" alt="Camera viewfinder portrait 3" class="screenshot-img">
+                </div>
+                
+                <!-- Camera app features -->
+                <div class="features camera-features">
+                    <h3>Features of Landscape Recorder:</h3>
+                    <ul>
+                        <li>Records portrait videos through a landscape mode "viewfinder" on your iPhone</li>
+                        <li>In live concerts and crowded places it is difficult to hold a phone in landscape mode — with the hand in a comfortable position you can record portrait videos that are perfect for landscape conversion</li>
+                        <li>Either on the spot or later when you have time you can go into the queue and decide which videos get converted</li>
+                        <li>Portrait videos are recorded in 4K ensuring the Landscape Video is at least 1080P quality</li>
+                        <li>Imagine vlogging in the field and posting portrait to instagram while posting landscape to youtube?</li>
+                    </ul>
+                </div>
+                
+                <!-- Coming soon button -->
+                <a href="#" class="app-store-black">⬇︎ Coming soon to the App Store</a>
+            </div>
+        </div>
+
+        <!-- ===== GJUIHE ANGLEZE SECTION (NEW - collapsible) ===== -->
+        <div class="app-section" id="app3">
+            <button class="app-title-btn" onclick="toggleApp('app3')">
+                <h2>Gjuhe Angleze</h2>
+                <span class="toggle-icon">➕</span>
+            </button>
+            
+            <div class="app-content">
+                <!-- Three language app screenshots (using the new image names) -->
+                <div class="screenshots-row">
+                    <img src="gjuhe1.png" alt="Gjuhe Angleze screen 1" class="screenshot-img">
+                    <img src="gjuhe2.png" alt="Gjuhe Angleze screen 2" class="screenshot-img">
+                    <img src="gjuhe3.png" alt="Gjuhe Angleze screen 3" class="screenshot-img">
+                    <img src="gjuhe4.png" alt="Gjuhe Angleze screen 3" class="screenshot-img">
+                </div>
+                
+                <!-- Language app features -->
+                <div class="features language-features">
+                    <h3>Learn English for Albanian speakers:</h3>
+                    <ul>
+                        <li>Language learning app with no exams - just learn naturally</li>
+                        <li>Learn to speak English for Albanians</li>
+                        <li>Introductory offer - it's completely free!</li>
+                        <li>Future versions will have more features and sentences</li>
+                        <li>Proven algorithms that speed up learning and enhance retention</li>
+                        <li>Press and hold listen button to turn off sound</li>
+                        <li>Press and hold forward/next button to change sentence modes</li>
+                        <li>Change order of English or Albanian by pressing the swap button</li>
+                        <li>Has three lesson plans - quick, medium and deep intensive</li>
+                        <li>Has one reading mode (plan) that allows reading sentences in sequential order</li>
+                        <li>In reading plan progress points are not awarded</li>
+                    </ul>
+                </div>
+                
+                <!-- Download button -->
+                <a href="#" class="app-store-black">⬇︎ Coming soon to the App Store</a>
+            </div>
+        </div>
+
+        <!-- FEEDBACK SECTION -->
+        <div class="contact">
+            📧 Got feedback? We're all ears.<br>
+            <a href="mailto:brigitte.dawson@cit.edu.al">brigitte.dawson@cit.edu.al</a>
+        </div>
+
+        <!-- PRIVACY POLICY (covers both apps) -->
+        <div class="privacy-policy">
+            <button onclick="togglePrivacy()" class="privacy-toggle">
+                📋 Privacy Policy (All Apps)
+            </button>
+            
+            <div id="privacyContent" class="privacy-content">
+                <h3>Privacy Policy</h3>
+                <p><strong>Last updated:</strong> March 2026</p>
+                
+                <p>BD Software ("we", "our", or "us") is committed to protecting your privacy. This policy applies to <strong>Towers of H'Annoy</strong>, <strong>Landscape Recorder</strong>, and <strong>Gjuhe Angleze</strong>.</p>
+                
+                <h4>🌉 Towers of H'Annoy</h4>
+                <p><strong>ZERO data collection.</strong> The puzzle app:</p>
+                <ul>
+                    <li>✅ No analytics tools</li>
+                    <li>✅ No crash reporters</li>
+                    <li>✅ No advertising identifiers</li>
+                    <li>✅ No account creation</li>
+                    <li>✅ No internet access required</li>
+                    <li>✅ No permissions requested (Camera, Microphone, Photos not used)</li>
+                </ul>
+                <p>All game progress (score, moves, settings) is stored <strong>only on your device</strong> and never transmitted.</p>
+                
+                <h4>🎬 Landscape Recorder</h4>
+                <p><strong>No information collected.</strong> The camera app requires:</p>
+                <ul>
+                    <li><strong>Camera access</strong> — to record video through the viewfinder</li>
+                    <li><strong>Microphone access</strong> — to capture audio during recording</li>
+                    <li><strong>Photos Library access</strong> — to save videos and allow conversion</li>
+                </ul>
+                <p><strong>Critical:</strong> All recordings stay on-device. We do not upload, transmit, or have any ability to view your photos or videos. No analytics, tracking, or data collection of any kind.</p>
+                
+                <h4>🗣️ Gjuhe Angleze</h4>
+                <p><strong>No data collection.</strong> The language learning app:</p>
+                <ul>
+                    <li>✅ All learning progress stays on your device</li>
+                    <li>✅ No analytics or tracking</li>
+                    <li>✅ No account required</li>
+                    <li>✅ No internet connection needed for lessons</li>
+                    <li>✅ No personal information collected</li>
+                </ul>
+                <p>Your language learning journey is completely private and offline.</p>
+                
+                <h4>🔒 Unified Privacy Promise</h4>
+                <ul>
+                    <li>✅ No analytics SDKs in any app</li>
+                    <li>✅ No crash reporters</li>
+                    <li>✅ No advertising identifiers (IDFA)</li>
+                    <li>✅ No tracking of any kind</li>
+                    <li>✅ No account sign-up</li>
+                    <li>✅ No server data storage</li>
+                </ul>
+                
+                <h4>📱 Local Processing Only</h4>
+                <p><strong>Towers of H'Annoy:</strong> All game state stays on your device.<br>
+                <strong>Landscape Recorder:</strong> Video conversion happens entirely on your iPhone. No footage ever leaves your device.<br>
+                <strong>Gjuhe Angleze:</strong> All language lessons and progress stay on your device.</p>
+                
+                <h4>👶 Children's Privacy</h4>
+                <p>All apps are suitable for all ages and do not collect personal information from anyone, including children under 13.</p>
+                
+                <h4>📝 Changes</h4>
+                <p>If this policy changes, we'll update the "Last updated" date while maintaining our zero-data commitment.</p>
+                
+                <h4>📧 Contact</h4>
+                <p><a href="mailto:brigitte.dawson@cit.edu.al" style="color:#d63031;">brigitte.dawson@cit.edu.al</a></p>
+                
+                <p style="font-style: italic; margin-top: 20px;">© 2026 BD Software</p>
+            </div>
+        </div>
+        
+        <div class="labs">
+            BD Software
+        </div>
+        
+        <div class="footer-note">
+            © 2026 • Version 3.0 • Three apps, one mission
+        </div>
+    </div>
+
+    <script>
+    function toggleApp(appId) {
+        var section = document.getElementById(appId);
+        section.classList.toggle('active');
+    }
+
+    function togglePrivacy() {
+        var content = document.getElementById('privacyContent');
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+        } else {
+            content.style.display = 'none';
+        }
+    }
+    </script>
 </body>
 </html>
